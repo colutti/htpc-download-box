@@ -1,19 +1,5 @@
 version: "3.4"
 services:
-  # vpn:
-  #   container_name: vpn
-  #   image: dperson/openvpn-client:latest
-  #   cap_add:
-  #     - net_admin # required to modify network interfaces
-  #   restart: unless-stopped
-  #   volumes:
-  #     - /dev/net:/dev/net:z # tun device
-  #     - ${ROOT}/config/vpn:/vpn # OpenVPN configuration
-  #   security_opt:
-  #     - label:disable
-  #   ports:
-  #     - 8112:8112 # port for deluge web UI to be reachable from local network
-  #   command: '-f "" -r 192.168.1.0/24' # enable firewall and route local network traffic
 
   deluge:
     container_name: deluge
@@ -98,21 +84,6 @@ services:
       - ${ROOT}/config/plex/transcode:/transcode # temp transcoded files
       - ${ROOT}/complete:/data # media library
 
-  bazarr:
-    container_name: bazarr
-    image: linuxserver/bazarr
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
-      - UMASK_SET=022 #optional
-    volumes:
-      - ${ROOT}/config/bazarr:/config # config files
-      - ${ROOT}/complete/movies:/movies # movies folder
-      - ${ROOT}/complete/tv:/tv # tv shows folder
-
   heimdall:
     image: lscr.io/linuxserver/heimdall
     container_name: heimdall
@@ -125,4 +96,89 @@ services:
     ports:
       - 8080:80
       - 4433:443
+    restart: unless-stopped
+
+  duckdns:
+    image: lscr.io/linuxserver/duckdns:latest
+    container_name: duckdns
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+      - SUBDOMAINS=colutti
+      - TOKEN=29506d07-fc4b-43bf-9860-23b1d53e97e1
+      - LOG_FILE=false #optional
+    volumes:
+      - ${ROOT}/config/duckdns:/config # config files
+    restart: unless-stopped
+
+  mongo:
+    image: mongo
+    container_name: mongo-server
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 12345
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 12345
+      ME_CONFIG_MONGODB_URL: mongodb://root:12345@mongo:27017/
+    volumes:
+      - ${ROOT}/config/mongo:/data/db
+
+  mariadb:
+    image: lscr.io/linuxserver/mariadb:latest
+    container_name: mariadb
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+      - MYSQL_ROOT_PASSWORD=12345
+    volumes:
+      - ${ROOT}/config/maria:/config
+    ports:
+      - 3306:3306
+    restart: unless-stopped
+
+  phpmyadmin:
+    image: lscr.io/linuxserver/phpmyadmin:latest
+    container_name: phpmyadmin
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+      - PMA_HOST=mariadb
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - PMA_PASSWORD=12345
+    volumes:
+      - ${ROOT}/config/phpmyadmin:/config
+    ports:
+      - 4040:80
+    restart: unless-stopped
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "888:80/tcp"
+    environment:
+      - TZ=${TZ} # timezone, defined in .env
+    # Volumes store your data between container upgrades
+    volumes:
+      - '${ROOT}/config/etc-pihole:/etc/pihole'
+      - '${ROOT}/config/etc-dnsmasq.d:/etc/dnsmasq.d'
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
     restart: unless-stopped
