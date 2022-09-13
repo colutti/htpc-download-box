@@ -95,7 +95,6 @@ services:
       - ${ROOT}/config/heindall:/config # config files
     ports:
       - 8080:80
-      - 4433:443
     restart: unless-stopped
 
   duckdns:
@@ -181,4 +180,18 @@ services:
       - '${ROOT}/config/etc-pihole:/etc/pihole'
       - '${ROOT}/config/etc-dnsmasq.d:/etc/dnsmasq.d'
     #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    restart: unless-stopped
+
+  nextcloud:
+    image: lscr.io/linuxserver/nextcloud:latest
+    container_name: nextcloud
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+    volumes:
+      - ${ROOT}/config/nextcloud/appdata:/config
+      - ${ROOT}/config/nextcloud/data:/data
+    ports:
+      - 443:443
     restart: unless-stopped
