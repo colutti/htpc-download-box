@@ -1,0 +1,46 @@
+version: "3.4"
+services:
+
+  heimdall:
+    image: lscr.io/linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+    volumes:
+      - ${ROOT}/config/heindall:/config # config files
+    ports:
+      - 8080:80
+    restart: unless-stopped
+
+  duckdns:
+    image: lscr.io/linuxserver/duckdns:latest
+    container_name: duckdns
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+      - SUBDOMAINS=colutti
+      - TOKEN=29506d07-fc4b-43bf-9860-23b1d53e97e1
+      - LOG_FILE=false #optional
+    volumes:
+      - ${ROOT}/config/duckdns:/config # config files
+    restart: unless-stopped
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "888:80/tcp"
+    environment:
+      - TZ=${TZ} # timezone, defined in .env
+    # Volumes store your data between container upgrades
+    volumes:
+      - '${ROOT}/config/etc-pihole:/etc/pihole'
+      - '${ROOT}/config/etc-dnsmasq.d:/etc/dnsmasq.d'
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    restart: unless-stopped
