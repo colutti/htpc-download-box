@@ -26,6 +26,12 @@
 
 - Docker:
     - Portainer:
-        icon: portainer.png
+        icon: pihole.png
         href: http://192.168.1.50:9000
         description: Container management
+
+- DNS:
+    - Portainer:
+        icon: portainer.png
+        href: http://192.168.1.50:888/admin/
+        description: DNS Ad blocker
