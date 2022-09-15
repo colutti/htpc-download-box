@@ -46,3 +46,9 @@
         widget:
             type: pihole
             url: http://colutti.duckdns.org:888
+
+- Home Automation:
+    - Home-Assistant:
+        icon: home-assistant.png
+        href: http://192.168.1.5:8123
+        description: Home automation
