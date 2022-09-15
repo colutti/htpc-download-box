@@ -12,6 +12,10 @@
         icon: radarr.png
         href: http://192.168.1.2:7878
         description: Movie management
+        widget:
+          type: radarr
+          url: http://192.168.1.2:8989/
+          key: 70e5a6e3d5d145edabe01ae52e900e2f
 
     - Deluge:
         icon: deluge.png
