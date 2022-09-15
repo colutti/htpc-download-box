@@ -46,6 +46,8 @@
         widget:
             type: pihole
             url: http://colutti.duckdns.org:888
+        server: pi2
+        container: pihole
 
 - Home Automation:
     - Home-Assistant:
