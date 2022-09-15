@@ -37,6 +37,8 @@
         icon: portainer.png
         href: http://colutti.duckdns.org:9000
         description: Container management
+        server: pi2
+        container: portainer
 
 - DNS:
     - Pi-Hole:
