@@ -1,48 +1,48 @@
 - Media:
     - Sonarr:
         icon: sonarr.png
-        href: http://192.168.1.2:8989/
+        href: http://colutti.duckdns.org:8989/
         description: Series management
         widget:
           type: sonarr
-          url: http://192.168.1.2:8989/
+          url: http://colutti.duckdns.org:8989/
           key: e06f2aed4456491fba63050f45dfd7dc
 
     - Radarr:
         icon: radarr.png
-        href: http://192.168.1.2:7878
+        href: http://colutti.duckdns.org:7878
         description: Movie management
         widget:
           type: radarr
-          url: http://192.168.1.2:7878
+          url: http://colutti.duckdns.org:7878
           key: 70e5a6e3d5d145edabe01ae52e900e2f
 
     - Deluge:
         icon: deluge.png
-        href: http://192.168.1.2:8112
+        href: http://colutti.duckdns.org:8112
         description: Torrent management
 
     - Jackett:
         icon: jackett.png
-        href: http://192.168.1.2:9117
+        href: http://colutti.duckdns.org:9117
         description: Torrent Indexer
 
     - Plex:
         icon: plex.png
-        href: http://192.168.1.2:32400
+        href: http://colutti.duckdns.org:32400
         description: Media Server
 
 - Docker:
     - Portainer:
         icon: portainer.png
-        href: http://192.168.1.50:9000
+        href: http://colutti.duckdns.org:9000
         description: Container management
 
 - DNS:
     - Pi-Hole:
         icon: pihole.png
-        href: http://192.168.1.50:888/admin/
+        href: http://colutti.duckdns.org:888/admin/
         description: DNS Ad blocker
         widget:
             type: pihole
-            url: http://192.168.1.50:888
+            url: http://colutti.duckdns.org:888
