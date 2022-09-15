@@ -1,14 +1,20 @@
 - Media:
     - Sonarr:
         icon: sonarr.png
-        href: http://localhost:8989/
+        href: http://192.168.1.2:8989/
         description: Series management
 
     - Radarr:
         icon: radarr.png
-        href: http://localhost:7878
+        href: http://192.168.1.2:7878
         description: Movie management
 
+    - Deluge:
+        icon: deluge.png
+        href: http://192.168.1.2:8112
+        description: Movie management
+
+- Docker:
     - Portainer:
         icon: portainer.png
         href: http://192.168.1.50:9000
