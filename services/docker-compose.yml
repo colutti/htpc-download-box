@@ -1,19 +1,6 @@
 version: "3.4"
 services:
 
-  heimdall:
-    image: lscr.io/linuxserver/heimdall
-    container_name: heimdall
-    environment:
-      - PUID=${PUID} # default user id, defined in .env
-      - PGID=${PGID} # default group id, defined in .env
-      - TZ=${TZ} # timezone, defined in .env
-    volumes:
-      - ${ROOT}/config/heindall:/config # config files
-    ports:
-      - 8080:80
-    restart: unless-stopped
-
   duckdns:
     image: lscr.io/linuxserver/duckdns:latest
     container_name: duckdns
