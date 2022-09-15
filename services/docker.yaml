@@ -1,3 +1,2 @@
 pi2:
-  host: 192.168.1.50
-  port: 2375
+  socket: /var/run/docker.sock
