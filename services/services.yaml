@@ -14,7 +14,7 @@
         description: Movie management
         widget:
           type: radarr
-          url: http://192.168.1.2:8989/
+          url: http://192.168.1.2:7878
           key: 70e5a6e3d5d145edabe01ae52e900e2f
 
     - Deluge:
@@ -34,12 +34,15 @@
 
 - Docker:
     - Portainer:
-        icon: pihole.png
+        icon: portainer.png
         href: http://192.168.1.50:9000
         description: Container management
 
 - DNS:
-    - Portainer:
-        icon: portainer.png
+    - Pi-Hole:
+        icon: pihole.png
         href: http://192.168.1.50:888/admin/
         description: DNS Ad blocker
+        widget:
+            type: pihole
+            url: http://192.168.1.50:888
