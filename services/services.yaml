@@ -35,7 +35,7 @@
 - Docker:
     - Portainer:
         icon: portainer.png
-        href: http://192.168.1.2:9000
+        href: http://colutti.duckdns.org:9000
         description: Container management
         server: local
         container: portainer
