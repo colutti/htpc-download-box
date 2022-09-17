@@ -48,7 +48,6 @@ services:
   homepage:
     image: ghcr.io/benphelps/homepage:latest
     container_name: homepage
-    user: ${PUID}:${PGID} # Optional, change to your user and group IDs for permissions
     ports:
       - 3000:3000
     volumes:
