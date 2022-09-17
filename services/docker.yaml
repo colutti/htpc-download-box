@@ -1,2 +1,2 @@
-pi2:
+local:
   socket: /var/run/docker.sock

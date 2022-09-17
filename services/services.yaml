@@ -37,7 +37,7 @@
         icon: portainer.png
         href: http://colutti.duckdns.org:9000
         description: Container management
-        server: pi2
+        server: local
         container: portainer
 
 - DNS:
@@ -48,7 +48,7 @@
         widget:
             type: pihole
             url: http://colutti.duckdns.org:888
-        server: pi2
+        server: local
         container: pihole
 
 - Home Automation:
