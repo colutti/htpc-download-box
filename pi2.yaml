@@ -1,0 +1,13 @@
+---
+- name: Install all services on PI2
+  hosts: 192.168.1.5
+  remote_user: colutti
+  gather_facts: false
+
+  tasks:
+
+    - name: Deploy Docker Compose stack
+      community.docker.docker_compose:
+        project_src: /home/colutti/Projects/htpc-download-box/automations/
+        files:
+          - docker-compose.yml

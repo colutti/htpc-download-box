@@ -32,6 +32,7 @@
         - python3-pip
         - virtualenv
         - python3-setuptools
+        - docker-compose
       state: present
       update_cache: true
 
@@ -65,6 +66,13 @@
     become: true
     ansible.builtin.pip:
       name: docker
+
+  - name: Start and enable docker service, if not started
+    become: true
+    ansible.builtin.service:
+      name: docker
+      state: started
+      enabled: true
 
   - name: Creates the media config folder
     become: false
