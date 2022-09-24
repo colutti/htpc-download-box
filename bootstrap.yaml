@@ -2,6 +2,7 @@
 - name: Bootstrap Servers
   hosts: all
   remote_user: colutti
+  gather_facts: false
 
   tasks:
 
@@ -65,16 +66,6 @@
     ansible.builtin.pip:
       name: docker
 
-  - name: Remove old installations of Oh My Bash
-    become: false
-    ansible.builtin.file:
-      state: absent
-      path: /home/colutti/.oh-my-bash/
-
-  - name: Install Oh My Bash
-    become: false
-    ansible.builtin.shell: curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh | bash
-
   - name: Creates the media config folder
     become: false
     ansible.builtin.file:
@@ -133,3 +124,4 @@
       clone: true
       update: true
       force: true
+      version: master
