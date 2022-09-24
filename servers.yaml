@@ -1,0 +1,135 @@
+---
+- name: Bootstrap Servers
+  hosts: all
+  remote_user: colutti
+
+  tasks:
+
+  - name: Update and upgrade apt packages
+    become: true
+    ansible.builtin.apt:
+      upgrade: true
+      update_cache: true
+      cache_valid_time: 86400
+
+  - name: Install aptitude
+    become: true
+    ansible.builtin.apt:
+      name: aptitude
+      state: present
+      update_cache: true
+
+  - name: Install required system packages
+    become: true
+    ansible.builtin.apt:
+      pkg:
+        - git
+        - apt-transport-https
+        - ca-certificates
+        - curl
+        - software-properties-common
+        - python3-pip
+        - virtualenv
+        - python3-setuptools
+      state: present
+      update_cache: true
+
+  - name: Add Docker GPG apt Key
+    become: true
+    ansible.builtin.apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Add Docker Repository
+    become: true
+    ansible.builtin.apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu focal stable
+      state: present
+
+  - name: Update apt and install docker-ce
+    become: true
+    ansible.builtin.apt:
+      name: docker-ce
+      state: present
+      update_cache: true
+
+  - name: Adding existing user colutti to group docker
+    become: true
+    ansible.builtin.user:
+      name: colutti
+      groups: docker
+      append: true
+
+  - name: Install Docker Module for Python
+    become: true
+    ansible.builtin.pip:
+      name: docker
+
+  - name: Remove old installations of Oh My Bash
+    become: false
+    ansible.builtin.file:
+      state: absent
+      path: /home/colutti/.oh-my-bash/
+
+  - name: Install Oh My Bash
+    become: false
+    ansible.builtin.shell: curl -fsSL https://raw.githubusercontent.com/ohmybash/oh-my-bash/master/tools/install.sh | bash
+
+  - name: Creates the media config folder
+    become: false
+    ansible.builtin.file:
+      path: /home/colutti/media/config
+      state: directory
+      owner: colutti
+      group: colutti
+      mode: 0775
+      recurse: true
+
+  - name: Creates the media complete folder
+    become: false
+    ansible.builtin.file:
+      path: /home/colutti/media/complete
+      state: directory
+      owner: colutti
+      group: colutti
+      mode: 0775
+      recurse: true
+
+  - name: Creates the media downloads folder
+    become: false
+    ansible.builtin.file:
+      path: /home/colutti/media/downloads
+      state: directory
+      owner: colutti
+      group: colutti
+      mode: 0775
+      recurse: true
+
+  - name: Creates the media downloads folder
+    become: false
+    ansible.builtin.file:
+      path: /home/colutti/media/downloads
+      state: directory
+      owner: colutti
+      group: colutti
+      mode: 0775
+      recurse: true
+
+  - name: Creates the Projects folder
+    become: false
+    ansible.builtin.file:
+      path: /home/colutti/Projects
+      state: directory
+      owner: colutti
+      group: colutti
+      mode: 0775
+      recurse: true
+
+  - name: Clone the download-box github repository
+    become: false
+    ansible.builtin.git:
+      repo: https://github.com/colutti/htpc-download-box.git
+      dest: /home/colutti/Projects/htpc-download-box/
+      clone: true
+      update: true
+      force: true
