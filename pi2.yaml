@@ -7,7 +7,22 @@
   tasks:
 
     - name: Deploy Docker Compose stack
+      become: false
       community.docker.docker_compose:
         project_src: /home/colutti/Projects/htpc-download-box/automations/
         files:
           - docker-compose.yml
+
+
+    - name: Creating a file with content
+      become: false
+      ansible.builtin.copy:
+        dest: /home/colutti/Projects/htpc-download-box/automations/.env
+        content: |
+            PUID=1000
+            PGID=1000
+            TZ=Europe/Madrid
+            ROOT=/home/colutti/media
+        owner: colutti
+        group: colutti
+        mode: 0775
