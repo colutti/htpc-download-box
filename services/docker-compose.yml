@@ -63,6 +63,6 @@ services:
       - ${ROOT}/config/searcharr/logs:/app/logs
       - ./settings.py:/app/settings.py
     environment:
-      - TZ=America/New_York
+      - TZ=${TZ}
     restart: unless-stopped
     network_mode: host
