@@ -1,6 +1,6 @@
 ---
 - name: Install all services on PI2
-  hosts: 192.168.1.50
+  hosts: 192.168.1.5
   remote_user: colutti
   gather_facts: false
 
@@ -9,7 +9,7 @@
     - name: Creating a file with content
       become: false
       ansible.builtin.copy:
-        dest: /home/colutti/Projects/htpc-download-box/services/.env
+        dest: /home/colutti/Projects/htpc-download-box/automations/.env
         content: |
             PUID=1000
             PGID=1000
@@ -22,6 +22,6 @@
     - name: Deploy Docker Compose stack
       become: false
       community.docker.docker_compose:
-        project_src: /home/colutti/Projects/htpc-download-box/services/
+        project_src: /home/colutti/Projects/htpc-download-box/automations/
         files:
           - docker-compose.yml
