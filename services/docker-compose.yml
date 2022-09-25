@@ -29,7 +29,7 @@ services:
     volumes:
       - '${ROOT}/config/etc-pihole:/etc/pihole'
       - '${ROOT}/config/etc-dnsmasq.d:/etc/dnsmasq.d'
-      - /var/run/docker.sock:/var/run/docker.sock:ro  
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: unless-stopped
 
   portainer:
@@ -54,3 +54,15 @@ services:
       - ${ROOT}/config/homepage:/app/config # Make sure your local config directory is exists
       - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
     restart: unless-stopped
+
+  searcharr:
+    container_name: searcharr
+    image: toddrob/searcharr:latest
+    volumes:
+      - ${ROOT}/config/searcharr/data:/app/data
+      - ${ROOT}/config/searcharr/logs:/app/logs
+      - ./settings.py:/app/settings.py
+    environment:
+      - TZ=America/New_York
+    restart: unless-stopped
+    network_mode: host
