@@ -6,6 +6,16 @@
 
   tasks:
 
+    - name: Update the download-box github repository
+      become: false
+      ansible.builtin.git:
+        repo: https://github.com/colutti/htpc-download-box.git
+        dest: /home/colutti/Projects/htpc-download-box/
+        clone: false
+        update: true
+        force: false
+        version: master
+
     - name: Creating a file with content
       become: false
       ansible.builtin.copy:
