@@ -74,6 +74,10 @@
       state: started
       enabled: true
 
+  - name: Reboot the server after docker install
+    ansible.builtin.reboot:
+      test_command: ping -c 4 192.168.1.1
+
   - name: Creates the media config folder
     become: false
     ansible.builtin.file:
