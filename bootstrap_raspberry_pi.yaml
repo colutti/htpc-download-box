@@ -1,6 +1,6 @@
 ---
 - name: Bootstrap Servers
-  hosts: all
+  hosts: pis
   remote_user: colutti
   gather_facts: false
 
