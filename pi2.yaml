@@ -16,7 +16,7 @@
         force: false
         version: master
 
-    - name: Creating a file with content
+    - name: Creating the .env file
       become: false
       ansible.builtin.copy:
         dest: /home/colutti/Projects/htpc-download-box/services/.env
