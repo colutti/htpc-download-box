@@ -29,9 +29,28 @@
         group: colutti
         mode: 0775
 
+    - name: Copy homepage's services file
+      become: true
+      ansible.builtin.copy:
+        src: /home/colutti/Projects/htpc-download-box/services/services.yaml
+        dest: /home/colutti/media/config/homepage/services.yaml
+        remote_src: true
+        force: true
+        mode: preserve
+
+    - name: Copy homepage's docker file
+      become: true
+      ansible.builtin.copy:
+        src: /home/colutti/Projects/htpc-download-box/services/docker.yaml
+        dest: /home/colutti/media/config/homepage/docker.yaml
+        remote_src: true
+        force: true
+        mode: preserve
+
     - name: Deploy Docker Compose stack
       become: false
       community.docker.docker_compose:
+        recreate: always
         project_src: /home/colutti/Projects/htpc-download-box/services/
         files:
           - docker-compose.yml

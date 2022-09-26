@@ -1,0 +1,27 @@
+---
+- name: Bootstrap Servers
+  hosts: all
+  remote_user: colutti
+  gather_facts: false
+
+  tasks:
+
+  - name: Creates the Projects folder
+    become: false
+    ansible.builtin.file:
+      path: /home/colutti/Projects
+      state: directory
+      owner: colutti
+      group: colutti
+      mode: 0775
+      recurse: true
+
+  - name: Clone the download-box github repository
+    become: false
+    ansible.builtin.git:
+      repo: https://github.com/colutti/htpc-download-box.git
+      dest: /home/colutti/Projects/htpc-download-box/
+      clone: true
+      update: true
+      force: true
+      version: master

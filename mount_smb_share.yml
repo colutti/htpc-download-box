@@ -1,0 +1,27 @@
+---
+- name: Bootstrap Servers
+  hosts: all
+  remote_user: colutti
+  gather_facts: false
+
+  tasks:
+
+  - name: Creates the mediafolder
+    become: true
+    ansible.builtin.file:
+      path: /home/colutti/media
+      state: directory
+      owner: colutti
+      group: colutti
+      mode: 0777
+      recurse: true
+
+
+  - name: Mount network share
+    become: true
+    ansible.builtin.mount:
+      src: //192.168.1.5/media/
+      path: /home/colutti/media
+      fstype: cifs
+      state: mounted
+      opts: rw,sync,hard,username=colutti,password=let7hu118,dir_mode=0777,file_mode=0777
