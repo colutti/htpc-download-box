@@ -66,3 +66,11 @@ services:
       - TZ=${TZ}
     restart: unless-stopped
     network_mode: host
+
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower:armhf-latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock 
+    restart: unless-stopped
+    network_mode: host
