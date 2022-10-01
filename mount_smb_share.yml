@@ -7,7 +7,7 @@
   tasks:
 
   - name: Creates the mediafolder
-    become: true
+    become: false
     ansible.builtin.file:
       path: /home/colutti/media
       state: directory
@@ -24,4 +24,4 @@
       path: /home/colutti/media
       fstype: cifs
       state: mounted
-      opts: rw,sync,hard,username=colutti,password=let7hu118,dir_mode=0777,file_mode=0777
+      opts: rw,sync,hard,username=colutti,password=let7hu118,dir_mode=0777,file_mode=0777,user=colutti,uid=1000,gid=1000
