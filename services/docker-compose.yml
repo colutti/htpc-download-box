@@ -74,13 +74,3 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
     network_mode: host
-
-  unbound:
-    container_name: unbound
-    image: mvance/unbound-rpi:latest
-    volumes:
-      - ${ROOT}/config/unbound:/opt/unbound/etc/unbound/
-    restart: unless-stopped
-    ports:
-      - 553:53/udp
-      - 553:53/tcp
