@@ -77,7 +77,7 @@ services:
 
   unbound:
     container_name: unbound
-    image: mvance/unbound:latest
+    image: mvance/unbound-rpi:latest
     volumes:
       - ${ROOT}/config/unbound:/opt/unbound/etc/unbound/
     restart: unless-stopped
