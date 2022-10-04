@@ -81,7 +81,6 @@ services:
     volumes:
       - ${ROOT}/config/unbound:/opt/unbound/etc/unbound/
     restart: unless-stopped
-      - "53:53/tcp"
     ports:
       - 5353:53/udp
       - 5353:53/tcp
