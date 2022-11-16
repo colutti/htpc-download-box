@@ -58,8 +58,8 @@ services:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
     volumes:
-      - ${ROOT}/config/home_assistant:/config
       - /etc/localtime:/etc/localtime:ro
+      - ${ROOT}/config/home_assistant:/config
     restart: unless-stopped
     privileged: true
     network_mode: host
@@ -98,8 +98,8 @@ services:
       - TZ=${TZ} # timezone, defined in .env
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - media:/media # downloads folder
       - ${ROOT}/config/deluge:/config # config files
+      - media:/media # downloads folder
     ports:
       - 8112:8112
 
