@@ -84,7 +84,7 @@ services:
       - VERSION=docker
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${ROOT}/config/plex:/config/plex/db:/config
+      - ${ROOT}/config/plex/db:/config/plex/db:/config
       - media:/media # media library
     restart: unless-stopped
 
