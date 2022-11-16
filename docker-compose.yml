@@ -1,0 +1,151 @@
+version: "3.4"
+
+volumes:
+  media:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${ROOT}
+
+services:
+
+  duckdns:
+    image: lscr.io/linuxserver/duckdns:latest
+    container_name: duckdns
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+      - SUBDOMAINS=colutti
+      - TOKEN=29506d07-fc4b-43bf-9860-23b1d53e97e1
+      - LOG_FILE=false #optional
+    volumes:
+      - ${ROOT}/config/duckdns:/config # config files
+    restart: unless-stopped
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "888:80/tcp"
+    environment:
+      - TZ=${TZ} # timezone, defined in .env
+    # Volumes store your data between container upgrades
+    volumes:
+      - '${ROOT}/config/etc-pihole:/etc/pihole'
+      - '${ROOT}/config/etc-dnsmasq.d:/etc/dnsmasq.d'
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${ROOT}/config/portainer:/data
+    ports:
+      - 9000:9000
+
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - ${ROOT}/config/home_assistant:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+
+  homepage:
+    image: ghcr.io/benphelps/homepage:latest
+    container_name: homepage
+    ports:
+      - 3000:3000
+    volumes:
+      - $./:/app/config # Make sure your local config directory is exists
+      - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
+    restart: unless-stopped
+
+  plex-server:
+    image: lscr.io/linuxserver/plex:latest
+    runtime: nvidia
+    container_name: plex-server
+    network_mode: host
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - VERSION=docker
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - media:/config/plex/db:/config
+      - media:/media # media library
+    restart: unless-stopped
+
+  deluge:
+    container_name: deluge
+    image: linuxserver/deluge:latest
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - media:/media # downloads folder
+      - media:/config/deluge:/config # config files
+    ports:
+      - 8112:8112
+
+  jackett:
+    container_name: jackett
+    image: linuxserver/jackett:latest
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${ROOT}/config/jackett:/config # config files
+      - media:/media # place where to put .torrent files for manual download
+    ports:
+      - 9117:9117
+
+  sonarr:
+    container_name: sonarr
+    hostname: sonarr
+    image: linuxserver/sonarr:latest
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${ROOT}/config/sonarr:/config # config files
+      - media:/media
+    ports:
+      - 8989:8989
+
+  radarr:
+    container_name: radarr
+    image: linuxserver/radarr:latest
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${ROOT}/config/radarr:/config # config files
+      - media:/media
+    ports:
+      - 7878:7878

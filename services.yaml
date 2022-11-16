@@ -1,0 +1,55 @@
+- Services:
+        - Sonarr:
+                icon: sonarr.png
+                href: http://colutti.duckdns.org:8989/
+                description: Series management
+                widget:
+                      type: sonarr
+                      url: http://colutti.duckdns.org:8989/
+                      key: e06f2aed4456491fba63050f45dfd7dc
+
+        - Radarr:
+                icon: radarr.png
+                href: http://colutti.duckdns.org:7878
+                description: Movie management
+                widget:
+                      type: radarr
+                      url: http://colutti.duckdns.org:7878
+                      key: 70e5a6e3d5d145edabe01ae52e900e2f
+
+        - Deluge:
+                icon: deluge.png
+                href: http://colutti.duckdns.org:8112
+                description: Torrent management
+
+        - Jackett:
+                icon: jackett.png
+                href: http://colutti.duckdns.org:9117
+                description: Torrent Indexer
+
+        - Plex:
+                icon: plex.png
+                href: http://colutti.duckdns.org:32400
+                description: Media Server
+
+        - Home-Assistant:
+                icon: home-assistant.png
+                href: http://192.168.1.5:8123
+                description: Home automation
+
+        - Portainer:
+                icon: portainer.png
+                href: http://colutti.duckdns.org:9000
+                description: Container management
+                server: local
+                container: portainer
+
+        - Pi-Hole:
+                icon: pihole.png
+                href: http://colutti.duckdns.org:888/admin/
+                description: DNS Ad blocker
+                widget:
+                      type: pihole
+                      url: http://colutti.duckdns.org:888
+                server: local
+                container: pihole
