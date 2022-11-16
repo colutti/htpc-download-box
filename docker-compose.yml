@@ -70,13 +70,12 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - $./:/app/config # Make sure your local config directory is exists
+      - ./:/app/config # Make sure your local config directory is exists
       - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
     restart: unless-stopped
 
   plex-server:
     image: lscr.io/linuxserver/plex:latest
-    runtime: nvidia
     container_name: plex-server
     network_mode: host
     environment:
