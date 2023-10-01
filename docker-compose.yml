@@ -180,7 +180,7 @@ services:
     image: hkotel/mealie:latest
     restart: always
     ports:
-      - 9925:9925
+      - 9925:80
     environment:
       - PUID=${PUID} # default user id, defined in .env
       - PGID=${PGID} # default group id, defined in .env
