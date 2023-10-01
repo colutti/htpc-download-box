@@ -185,7 +185,7 @@ services:
         limits:
           memory: 1000M # 
     volumes:
-      - m${ROOT}/config/mealie:/app/data/
+      - ${ROOT}/config/mealie:/app/data/
     environment:
       - PUID=${PUID} # default user id, defined in .env
       - PGID=${PGID} # default group id, defined in .env
@@ -193,5 +193,5 @@ services:
       - ALLOW_SIGNUP=true
       - MAX_WORKERS=1
       - WEB_CONCURRENCY=1
-      - BASE_URL=https://mcolutti.duckdns.org
+      - BASE_URL=https://colutti.duckdns.org
     restart: always
