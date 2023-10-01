@@ -64,16 +64,6 @@ services:
     privileged: true
     network_mode: host
 
-  homepage:
-    image: ghcr.io/benphelps/homepage:latest
-    container_name: homepage
-    ports:
-      - 3000:3000
-    volumes:
-      - ./:/app/config # Make sure your local config directory is exists
-      - /var/run/docker.sock:/var/run/docker.sock # (optional) For docker integrations
-    restart: unless-stopped
-
   plex-server:
     image: lscr.io/linuxserver/plex:latest
     container_name: plex-server
@@ -148,3 +138,17 @@ services:
       - media:/media
     ports:
       - 7878:7878
+
+  bazarr:
+    image: lscr.io/linuxserver/bazarr:latest
+    container_name: bazarr
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+    volumes:
+      - ${ROOT}/config/bazarr:/config # config files
+      - media:/media
+    ports:
+      - 6767:6767
+    restart: unless-stopped
