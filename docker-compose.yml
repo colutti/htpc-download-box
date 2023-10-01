@@ -153,3 +153,18 @@ services:
       - ${ROOT}/config/homarr/icons:/app/public/icons
     ports:
       - '7575:7575'
+
+  overseerr:
+    image: sctx/overseerr:latest
+    container_name: overseerr
+    environment:
+      - LOG_LEVEL=debug
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+      - PORT=5055 #optional
+    ports:
+      - 5055:5055
+    volumes:
+      - ${ROOT}/config/overseerr:/app/config
+    restart: unless-stopped
