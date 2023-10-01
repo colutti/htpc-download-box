@@ -152,3 +152,17 @@ services:
     ports:
       - 6767:6767
     restart: unless-stopped
+
+  homarr:
+    container_name: homarr
+    image: ghcr.io/ajnart/homarr:latest
+    environment:
+      - PUID=${PUID} # default user id, defined in .env
+      - PGID=${PGID} # default group id, defined in .env
+      - TZ=${TZ} # timezone, defined in .env
+    restart: unless-stopped
+    volumes:
+      - ${ROOT}/config/homarr/config:/app/data/configs
+      - ${ROOT}/config/homarr/icons:/app/public/icons
+    ports:
+      - '7575:7575'
